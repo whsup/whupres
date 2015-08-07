@@ -1,0 +1,38 @@
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<html>
+<head>
+<style>
+
+</style>
+<script type="text/javascript" src="jquery-git2.min.js"></script>
+<script src="highcharts/highcharts.js"></script>
+<script src="highcharts/exporting.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function() { 
+$('#action-button').click(function() {
+   $.ajax({
+      url: 'http://localhost:3000/',
+      data: {
+         format: 'json'
+      },
+      error: function() {
+         $('#info').html('<p>An error has occurred</p>');
+      },
+      dataType: 'jsonp',
+      success: function(data) {
+         alert("success");
+			
+      },
+      type: 'GET'
+   });
+});
+})
+
+</script>
+</head>
+<body>
+<button id="action-button">Click me to load info!</button>
+<div id="info"></div>         
+</body>
+</html>
