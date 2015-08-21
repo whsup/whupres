@@ -1,0 +1,70 @@
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<html>
+<head>
+<style>
+
+</style>
+<script type="text/javascript" src="jquery-git2.min.js"></script>
+<script src="highcharts/highcharts.js"></script>
+<script src="highcharts/exporting.js"></script>
+<script src="column.js"></script>
+<script src="pie.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+ var indicator = {};
+ function getParam(){
+		var params = {};
+        pairs = document.URL.split('?').pop().split('&');
+		for (var i = 0, p; i < pairs.length; i++) {
+           p = pairs[i].split('=');
+           params[ p[0] ] =  p[1];
+		}     
+		return params;
+ }
+ $('#getParam-button').click(function(){
+    var params = getParam();
+	$('#param').html('<p>show param</p>'); 
+	for(var i in params)
+	{
+	  $('#param').append('<br>').append(i + "," + params[i]);
+	}
+   
+ })
+$('#action-button').click(function() {
+   $.ajax({
+      url: 'http://localhost:3000/',
+      data: {
+         format: 'json'
+      },
+      error: function() {
+         $('#info').html('<p>An error has occurred</p>');
+      },
+      dataType: 'json',
+      success: function(result) {
+         alert("success");
+		 //column(result);
+		 //file:///C:/whsup/whupserver/public/what.html?name=virat&last=lee&typechart=column
+		 indicator = getParam();
+		 if(indicator['typechart'] == 'column')
+			column(result);
+		 else
+		    pie();
+	  },
+      type: 'GET'
+   });
+});
+})
+</script>
+</head>
+<body>
+<button id="action-button">Click me to load info!</button>
+<button id="getParam-button">show param</button>
+<div id="info"></div> 
+<div id="param"></div> 
+<div id="log"></div> 
+
+<div id="container" style="min-width: 300px; height: 400px; margin: 0 auto"></div>
+        
+</body>
+</html>
