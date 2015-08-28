@@ -7,9 +7,12 @@
 </style>
 <script type="text/javascript" src="jquery-git2.min.js"></script>
 <script src="highcharts/highcharts.js"></script>
+<script src="highcharts/drilldown.js"></script>
+<script src="highcharts/data.js"></script>
 <script src="highcharts/exporting.js"></script>
 <script src="column.js"></script>
 <script src="pie.js"></script>
+<script src="pie_dd.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
  var indicator = {};
@@ -42,12 +45,15 @@ $('#action-button').click(function() {
       },
       dataType: 'json',
       success: function(result) {
-         alert("success");
+         //alert("success");
 		 //column(result);
 		 //file:///C:/whsup/whupserver/public/what.html?name=virat&last=lee&typechart=column
 		 indicator = getParam();
-		 if(indicator['typechart'] == 'pie')
+		 var type = indicator['typechart'];
+		 if(type == '1')
 			pie(result);
+		 else if(type == '2') 
+		 	piedd(result);
 		 else // default is column chart
 		    column(result);
 	  },
