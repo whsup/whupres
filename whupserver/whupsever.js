@@ -9,11 +9,11 @@ app.get('/', function (req, res) {
   });
 
 
-app.get('/getStockData',function(req,res){
+app.get('/getNSEStockData',function(req,res){
   res.setHeader('Access-Control-Allow-Origin', '*');
   var options = {
-    host : 'www.highcharts.com',
-    path : '/samples/data/jsonp.php?filename=range.json',
+    host : 'live-nse.herokuapp.com',
+    path : '/?symbol=AIAENG,ATULAUTO',
     port : 80,
     method : 'GET'
   }
