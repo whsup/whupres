@@ -16,6 +16,7 @@
 <script type="text/javascript">
 jQuery(document).ready(function() {
  var indicator = {};
+ 
  function getParam(){
 		var params = {};
         pairs = document.URL.split('?').pop().split('&');
@@ -34,9 +35,20 @@ jQuery(document).ready(function() {
 	}
    
  })
+ function setUrlPath()
+ {
+ 	var params = getParam();
+	var urlPath = "http://localhost:3000/";
+ 	if(params["data"] == "1")
+ 		urlPath = urlPath + "getAWDData";
+ 	else if (params["data"] == "2")
+ 		urlPath = urlPath + "getNSEStockData";
+ 	return urlPath 
+ }
+ 
 $('#action-button').click(function() {
    $.ajax({
-      url: 'http://localhost:3000/',
+      url: setUrlPath(),
       data: {
          format: 'json'
       },
@@ -47,13 +59,15 @@ $('#action-button').click(function() {
       success: function(result) {
          //alert("success");
 		 //column(result);
-		 //file:///C:/whsup/whupserver/public/what.html?name=virat&last=lee&typechart=column
-		 indicator = getParam();
-		 var type = indicator['typechart'];
+		 //file:///C:/whsup/whupserver/public/what.html?data=1&typechart=1
+		 var params = getParam();
+		 var type = params["typechart"]
 		 if(type == '1')
 			pie(result);
 		 else if(type == '2') 
 		 	piedd(result);
+		 else if(type=='3')
+		 	pie(result)
 		 else // default is column chart
 		    column(result);
 	  },
