@@ -46,10 +46,10 @@ $('#action-button').click(function() {
 		 //column(result);
 		 //file:///C:/whsup/whupserver/public/what.html?name=virat&last=lee&typechart=column
 		 indicator = getParam();
-		 if(indicator['typechart'] == 'column')
-			column(result);
-		 else
-		    pie();
+		 if(indicator['typechart'] == 'pie')
+			pie(result);
+		 else // default is column chart
+		    column(result);
 	  },
       type: 'GET'
    });
