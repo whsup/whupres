@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 
-app.get('/', function (req, res) {
+app.get('/getAWDData', function (req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   var jstr = "{\"data\":[[\"Backlog\",3],[ \"PROCESS\",4],[\"REVIEW\",5],[\"REWORK\",5],[\"TEST\",5],[\"FIX\",5]]}";
   res.send(jstr);
@@ -10,8 +10,17 @@ app.get('/', function (req, res) {
 
 
 app.get('/getStockData',function(req,res){
-
+	res.setHeader('Access-Control-Allow-Origin', '*');
+  var jstr = "{\"data\":[[\"Backlog2\",3],[ \"PROCESS\",4],[\"REVIEW\",5],[\"REWORK\",5],[\"TEST\",5],[\"FIX\",5]]}";
+  res.send(jstr);
 });
+
+app.get('/getAWDData',function(req,res){
+	res.setHeader('Access-Control-Allow-Origin', '*');
+  var jstr = "{\"data\":[[\"Backlog1\",3],[ \"PROCESS\",4],[\"REVIEW\",5],[\"REWORK\",5],[\"TEST\",5],[\"FIX\",5]]}";
+  res.send(jstr);
+});
+
 
 var server = app.listen(3000, function () {
   var host = server.address().address;
