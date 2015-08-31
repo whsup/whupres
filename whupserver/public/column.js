@@ -4,7 +4,7 @@
             type: 'column'
         },
         title: {
-            text: 'World\'s largest cities per 2014'
+            text: 'Summary Status of January, 2015 to May, 2015'
         },
         xAxis: {
             type: 'category',
@@ -19,14 +19,14 @@
         yAxis: {
             min: 0,
             title: {
-                text: 'Population (millions)'
+                text: 'number of Status'
             }
         },
         legend: {
             enabled: false
         },
         tooltip: {
-            pointFormat: 'Population in 2008: <b>{point.y:.1f} millions</b>'
+            pointFormat: 'Status in 2015: <b>{point.y:.1f} Percent</b>'
         },
         series: [{
             name: 'Population',
