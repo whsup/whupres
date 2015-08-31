@@ -47,7 +47,14 @@ jQuery(document).ready(function() {
       success: function(result) {
 		 //file:///C:/whsup/whupserver/public/what.html?data=1&typechart=1
 		 var params = getParam();
-		 var type = params["typechart"];
+		 var type = params["graphType"];
+		 var userName = params["username"];
+		 var businessArea = params["BA"];
+		 var sourceType = params["ST"];
+		 $('p#info').append("username:"+userName).append("</br>");
+		 $('p#info').append("businessArea:"+businessArea).append("</br>");
+		 $('p#info').append("sourceType:"+sourceType).append("</br>");
+		 $('p#info').append("graphType:"+type).append("</br>");
 		 var functionName;
 		 if($.isNumeric(type)){
 		 	var index = parseInt(type)-1 ;
@@ -57,7 +64,7 @@ jQuery(document).ready(function() {
 		 	if($.inArray(type,typeChartMap) !== -1)
 		 		functionName = type;
 		 	else
-		 		$('#info').html('<p>not found typechart</p>');	
+		 		$('#log').html('<p>not found graph type</p>');	
 		 }
 		 window[functionName](result);
 		
@@ -70,7 +77,8 @@ jQuery(document).ready(function() {
 </script>
 </head>
 <body>
-<div id="info"></div> 
+<p id="info"></p>
+<div id="log"></div> 
 <div id="param"></div> 
 <div id="log"></div> 
 
