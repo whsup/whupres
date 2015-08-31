@@ -15,6 +15,7 @@
 <script src="pie_dd.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
+ var typeChartMap = ["pie","column","piedd"];
  function getParam(){
 		var params = {};
         pairs = document.URL.split('?').pop().split('&');
@@ -46,21 +47,20 @@ jQuery(document).ready(function() {
       success: function(result) {
 		 //file:///C:/whsup/whupserver/public/what.html?data=1&typechart=1
 		 var params = getParam();
-		 var type = params["typechart"]
-		 switch(parseInt(type)){
-		 	case 1: 
-		 	pie(result);
-		 	break;
-		 	case 2:
-		 	column(result);
-		 	break;
-		 	case 3:
-		 	piedd(result);
-		 	break;
-		 	default: 
-		 	pie(result);
+		 var type = params["typechart"];
+		 var functionName;
+		 if($.isNumeric(type)){
+		 	var index = parseInt(type)-1 ;
+		 	if((0<index) && (index < typeChartMap.length-1))
+		 		functionName = typeChartMap[index];
+		 }else{
+		 	if($.inArray(type,typeChartMap) !== -1)
+		 		functionName = type;
+		 	else
+		 		$('#info').html('<p>not found typechart</p>');	
 		 }
-		 
+		 window[functionName](result);
+		
 	  },
       type: 'GET'
    });
