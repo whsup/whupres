@@ -15,8 +15,6 @@
 <script src="pie_dd.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
- var indicator = {};
- 
  function getParam(){
 		var params = {};
         pairs = document.URL.split('?').pop().split('&');
@@ -26,17 +24,7 @@ jQuery(document).ready(function() {
 		}     
 		return params;
  }
- $('#getParam-button').click(function(){
-    var params = getParam();
-	$('#param').html('<p>show param</p>'); 
-	for(var i in params)
-	{
-	  $('#param').append('<br>').append(i + "," + params[i]);
-	}
-   
- })
- function setUrlPath()
- {
+ function setUrlPath(){
  	var params = getParam();
 	var urlPath = "http://localhost:3000/";
  	if(params["data"] == "1")
@@ -45,9 +33,8 @@ jQuery(document).ready(function() {
  		urlPath = urlPath + "getNSEStockData";
  	return urlPath 
  }
- 
-$('#action-button').click(function() {
-   $.ajax({
+ function getData(){
+ 	$.ajax({
       url: setUrlPath(),
       data: {
          format: 'json'
@@ -57,29 +44,32 @@ $('#action-button').click(function() {
       },
       dataType: 'json',
       success: function(result) {
-         //alert("success");
-		 //column(result);
 		 //file:///C:/whsup/whupserver/public/what.html?data=1&typechart=1
 		 var params = getParam();
 		 var type = params["typechart"]
-		 if(type == '1')
-			pie(result);
-		 else if(type == '2') 
+		 switch(parseInt(type)){
+		 	case 1: 
+		 	pie(result);
+		 	break;
+		 	case 2:
+		 	column(result);
+		 	break;
+		 	case 3:
 		 	piedd(result);
-		 else if(type=='3')
-		 	pie(result)
-		 else // default is column chart
-		    column(result);
+		 	break;
+		 	default: 
+		 	pie(result);
+		 }
+		 
 	  },
       type: 'GET'
    });
-});
+ }
+	getData();
 })
 </script>
 </head>
 <body>
-<button id="action-button">Click me to load info!</button>
-<button id="getParam-button">show param</button>
 <div id="info"></div> 
 <div id="param"></div> 
 <div id="log"></div> 
