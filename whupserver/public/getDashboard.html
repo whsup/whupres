@@ -1,0 +1,88 @@
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<html>
+<head>
+<style>
+
+</style>
+<script type="text/javascript" src="jquery-git2.min.js"></script>
+<script src="highcharts/highcharts.js"></script>
+<script src="highcharts/drilldown.js"></script>
+<script src="highcharts/data.js"></script>
+<script src="highcharts/exporting.js"></script>
+<script src="column.js"></script>
+<script src="pie.js"></script>
+<script src="pie_dd.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+ var typeChartMap = ["pie","column","piedd"];
+ function getParam(){
+		var params = {};
+        pairs = document.URL.split('?').pop().split('&');
+		for (var i = 0, p; i < pairs.length; i++) {
+           p = pairs[i].split('=');
+           params[ p[0] ] =  p[1];
+		}     
+		return params;
+ }
+ function setUrlPath(){
+ 	var params = getParam();
+	var urlPath = "http://localhost:3000/";
+ 	if(params["data"] == "1")
+ 		urlPath = urlPath + "getAWDData";
+ 	else if (params["data"] == "2")
+ 		urlPath = urlPath + "getNSEStockData";
+ 	return urlPath 
+ }
+ function getData(){
+ 	$.ajax({
+      url: setUrlPath(),
+      data: {
+         format: 'json'
+      },
+      error: function() {
+         $('#info').html('<p>An error has occurred</p>');
+      },
+      dataType: 'json',
+      success: function(result) {
+		 //file:///C:/whsup/whupserver/public/getDashboard.html?data=1&username=mark&BA=awd&ST=whatup&graphType=2
+		 var params = getParam();
+		 var type = params["graphType"];
+		 var userName = params["username"];
+		 var businessArea = params["BA"];
+		 var sourceType = params["ST"];
+		 $('p#info').append("username:"+userName).append("</br>");
+		 $('p#info').append("businessArea:"+businessArea).append("</br>");
+		 $('p#info').append("sourceType:"+sourceType).append("</br>");
+		 $('p#info').append("graphType:"+type).append("</br>");
+		 var functionName;
+		 if($.isNumeric(type)){
+		 	var index = parseInt(type)-1 ;
+		 	if((0<index) && (index < typeChartMap.length-1))
+		 		functionName = typeChartMap[index];
+		 }else{
+		 	if($.inArray(type,typeChartMap) !== -1)
+		 		functionName = type;
+		 	else
+		 		$('#log').html('<p>not found graph type</p>');	
+		 }
+		 window[functionName](result);
+		
+	  },
+      type: 'GET'
+   });
+ }
+	getData();
+})
+</script>
+</head>
+<body>
+<p id="info"></p>
+<div id="log"></div> 
+<div id="param"></div> 
+<div id="log"></div> 
+
+<div id="container" style="min-width: 300px; height: 400px; margin: 0 auto"></div>
+        
+</body>
+</html>
